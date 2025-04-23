@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "alideals-ua"
+version = "1"
+description = "AliDeals UA"
+authors = ["OleksandrGnatiuk <oleksandr.gnatiuk@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "alideals_ua"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiogram = ">=3.0.0,<4.0.0"
+python-dotenv = "^1.1.0"
+requests = "^2.32.3"
+flask = "^3.1.0"
+python-aliexpress-api = "^3.1.0"
+beautifulsoup4 = "^4.13.4"
+selenium = "^4.31.0"
+undetected-chromedriver = "^3.5.5"
+webdriver-manager = "^4.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

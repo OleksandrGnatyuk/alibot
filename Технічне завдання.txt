@@ -1,0 +1,90 @@
+Що маю зробити:
+
+1. Робити перевірку: чи url приймає участь в партнерській програмі
+2. часто на кроці 8 результати "назва не знайдено" та "фото не знайдено"
+3. необхідно скоротити час пошуку товарів по фото
+4. Іноді результати пошуку по фото зберігаються на різних мовах. Назви мають бути англійською мовою
+5. Добавити ціну на товари, що знайдені по зразку на фото. Ціни мають бути в Дол.США
+6. зараз результати пошуку видаються тільки з першої сторінки. Необхідно збирати на всіх сторінках
+
+Окремі скрипти:
+6. Парсинг даних з каналів-конкурентів (автоматично, по розкладу)
+6.1. Зберігання даних в БД (sqlite)
+
+
+7. Розміщення постів з БД (автоматично, по розкладу)
+7.1. Зберігання цих постів в БД
+
+8. Розміщення постів адміністратором вручну (для bot_app.py)
+8.1. Розділити права доступу
+8.2.
+
+
+9. Деплой на ....
+
+10. переробити програму на web-hook
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ідея була взята із замовлення на фрилансі:
+Короткий опис функціоналу бота:
+юзер вставляє посилання на товар - а бот шукає та генерує різні варіанти знижок через спеціальні розділи на AliExpress: 
+Монети / Super Deals / Limited Deals  
+
+Такі боти вже існують та їх вже багато різних.
+
+ОСЬ ПРИКЛАДИ:
+aliSavings_bot
+aliguruofficial_bot
+AliOlesiaDiscountBot
+
+Нам потрібен бот точно з таким функціоналом.
+
+
+Більш детальний опис:
+- користувач надає посилання на товар.
+- бот сканує розділи Монети / Super Deals / Limited Deals, знаходить найнижчу ціну
+- генерує партнерське посилання через API AliExpress https://openservice.aliexpress.com/
+- надає готові посилання користувачу.
+
+Друзі, будь ласка не беріться за роботу, якщо ви не впевнені в своїх навичках, не будемо витрачати наш з вами час!
+Нам потрібна людина яка розуміється в API AliExpress та має досвід.
+
+В результаті очікується як бот, так і базовий гайд як ним користуватись і як внести зміни у разі потреби (наприклад змінити вітальний текст у боті)
+
+Ми надали опис та навіть приклади вже існуючих ботів.
+
+
+
+потрібно порівняти посилання:
+
+https://www.aliexpress.com/item/1005006086108055.html?sourceType=620&aff_fcid=695b794532b84642946071ef995c6412-1744988275562-04688-_opFeg0b&aff_fsk=_opFeg0b&aff_platform=api-new-link-generate&sk=_opFeg0b&aff_trace_key=695b794532b84642946071ef995c6412-1744988275562-04688-_opFeg0b&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f&afSmartRedirect=y
+https://www.aliexpress.com/item/1005006086108055.html?sourceType=562&aff_fcid=0cecf0f9a7614e029bcee8a509114f9b-1744988384226-05373-_ooW9oPZ&aff_fsk=_ooW9oPZ&aff_platform=api-new-link-generate&sk=_ooW9oPZ&aff_trace_key=0cecf0f9a7614e029bcee8a509114f9b-1744988384226-05373-_ooW9oPZ&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f&afSmartRedirect=y
+https://www.aliexpress.com/item/1005006086108055.html?sourceType=621&aff_fcid=fcc78bd221ac4619bea79cda660a940f-1744988434923-00206-_okvuPw7&aff_fsk=_okvuPw7&aff_platform=api-new-link-generate&sk=_okvuPw7&aff_trace_key=fcc78bd221ac4619bea79cda660a940f-1744988434923-00206-_okvuPw7&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f&afSmartRedirect=y
+
+
+
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=620&channel=coin&aff_fcid=33f2791216ba416f986dcadb500869bd-1745014959440-08444-_oFx9icr&aff_fsk=_oFx9icr&aff_platform=api-new-link-generate&sk=_oFx9icr&aff_trace_key=33f2791216ba416f986dcadb500869bd-1745014959440-08444-_oFx9icr&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=561&aff_fcid=40591e626c424900aab17775398daa93-1745015098834-07370-_oFQO1s7&aff_fsk=_oFQO1s7&aff_platform=api-new-link-generate&sk=_oFQO1s7&aff_trace_key=40591e626c424900aab17775398daa93-1745015098834-07370-_oFQO1s7&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=562&aff_fcid=c6e4944a0d3447c8a1493892094b6333-1745015179253-06952-_onnfRp9&aff_fsk=_onnfRp9&aff_platform=api-new-link-generate&sk=_onnfRp9&aff_trace_key=c6e4944a0d3447c8a1493892094b6333-1745015179253-06952-_onnfRp9&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=570&aff_fcid=2f98758ea3b64c11995261b768962b68-1745015294697-08315-_omngzHd&aff_fsk=_omngzHd&aff_platform=api-new-link-generate&sk=_omngzHd&aff_trace_key=2f98758ea3b64c11995261b768962b68-1745015294697-08315-_omngzHd&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=580&aff_fcid=7104fa2b51304529acf4e099f656d222-1745015367207-01605-_oB3SreR&aff_fsk=_oB3SreR&aff_platform=api-new-link-generate&sk=_oB3SreR&aff_trace_key=7104fa2b51304529acf4e099f656d222-1745015367207-01605-_oB3SreR&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=504&aff_fcid=4f032c763a204f4c8394a465f9eb311b-1745015441595-05882-_olvLZM7&aff_fsk=_olvLZM7&aff_platform=api-new-link-generate&sk=_olvLZM7&aff_trace_key=4f032c763a204f4c8394a465f9eb311b-1745015441595-05882-_olvLZM7&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=680&aff_fcid=bf254fcee65f4e37ac72c9a49b889f11-1745015465964-03795-_onflsqj&aff_fsk=_onflsqj&aff_platform=api-new-link-generate&sk=_onflsqj&aff_trace_key=bf254fcee65f4e37ac72c9a49b889f11-1745015465964-03795-_onflsqj&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+https://www.aliexpress.com/item/1005006645437482.html?srcInAlolSns=sns_Copy&spreadTypeT=socialShare&bizTypeT=ProductDetail&sl_params=394803946&alol=CPS_NORMAL&alol_platform=shareComponent-detail&sourceType=591&aff_fcid=9f74dadc53044c509c72e8f5228d1fb7-1745015481425-01279-_omBKfo3&aff_fsk=_omBKfo3&aff_platform=api-new-link-generate&sk=_omBKfo3&aff_trace_key=9f74dadc53044c509c72e8f5228d1fb7-1745015481425-01279-_omBKfo3&terminal_id=f2b296d05a5b4ea988bc08fb1a0b5c6f
+
+
+
+https://www.aliexpress.com/w/wholesale-.html?isNewImageSearch=y&filename=OSS%2Fae-image-search-de%2F2025-04-19%2F568f808b-b0cb-46f8-9dfe-a99091cb34b6.jpg&imageId=1745055772421
