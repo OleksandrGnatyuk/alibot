@@ -22,3 +22,57 @@
 2025-04-23 11:26:00,107 [ERROR] - __main__ - handle_photo_search:165 - Помилка Telegram API при відправці фото за URL: Telegram server says - Bad Request: can't parse entities: Unsupported start tag "p" at byte offset 154
 2025-04-23 11:26:00,143 [ERROR] - __main__ - handle_photo_search:165 - Помилка Telegram API при відправці фото за URL: Telegram server says - Bad Request: can't parse entities: Unsupported start tag "p" at byte offset 172
 2025-04-23 11:26:00,179 [ERROR] - __main__ - handle_photo_search:165 - Помилка Telegram API при відправці фото за URL: Telegram server says - Bad Request: can't parse entities: Unsupported start tag "p" at byte offset 165
+2025-04-23 13:03:49,202 [ERROR] - search_goods_by_photo - search_with_selenium:219 - Критична помилка Selenium: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00897FD3+60707]
+	GetHandleVerifier [0x00898014+60772]
+	(No symbol) [0x006C0683]
+	(No symbol) [0x00708660]
+	(No symbol) [0x007089FB]
+	(No symbol) [0x00751022]
+	(No symbol) [0x0072D094]
+	(No symbol) [0x0074E824]
+	(No symbol) [0x0072CE46]
+	(No symbol) [0x006FC5D3]
+	(No symbol) [0x006FD424]
+	GetHandleVerifier [0x00ADBAB3+2435075]
+	GetHandleVerifier [0x00AD7053+2416035]
+	GetHandleVerifier [0x00AF33FC+2531660]
+	GetHandleVerifier [0x008AF0A5+155125]
+	GetHandleVerifier [0x008B5A4D+182173]
+	GetHandleVerifier [0x0089F8A8+91640]
+	GetHandleVerifier [0x0089FA50+92064]
+	GetHandleVerifier [0x0088A510+4704]
+	BaseThreadInitThunk [0x758EFA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A7E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A4E+238]
+Traceback (most recent call last):
+  File "C:\Users\Family\Desktop\AliDealsUA\search_goods_by_photo.py", line 112, in search_with_selenium
+    wait.until(EC.presence_of_element_located((By.XPATH, file_input_xpath)))
+  File "C:\Users\Family\AppData\Local\pypoetry\Cache\virtualenvs\alideals-ua-8kH2lJ6Q-py3.12\Lib\site-packages\selenium\webdriver\support\wait.py", line 146, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00897FD3+60707]
+	GetHandleVerifier [0x00898014+60772]
+	(No symbol) [0x006C0683]
+	(No symbol) [0x00708660]
+	(No symbol) [0x007089FB]
+	(No symbol) [0x00751022]
+	(No symbol) [0x0072D094]
+	(No symbol) [0x0074E824]
+	(No symbol) [0x0072CE46]
+	(No symbol) [0x006FC5D3]
+	(No symbol) [0x006FD424]
+	GetHandleVerifier [0x00ADBAB3+2435075]
+	GetHandleVerifier [0x00AD7053+2416035]
+	GetHandleVerifier [0x00AF33FC+2531660]
+	GetHandleVerifier [0x008AF0A5+155125]
+	GetHandleVerifier [0x008B5A4D+182173]
+	GetHandleVerifier [0x0089F8A8+91640]
+	GetHandleVerifier [0x0089FA50+92064]
+	GetHandleVerifier [0x0088A510+4704]
+	BaseThreadInitThunk [0x758EFA29+25]
+	RtlGetAppContainerNamedObjectPath [0x77927A7E+286]
+	RtlGetAppContainerNamedObjectPath [0x77927A4E+238]
+

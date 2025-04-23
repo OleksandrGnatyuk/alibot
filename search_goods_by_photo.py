@@ -3,6 +3,7 @@ import random
 from typing import Optional, Dict, List, Any
 
 import undetected_chromedriver as uc
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -49,19 +50,62 @@ def search_with_selenium(page_url: str, image_path: str) -> Optional[SearchResul
                 try { Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] }); } catch(e) {}
             """
         })
+        # ================================
+
+        # --- Крок 1.5: Перехід на сторінку для встановлення cookies ---
+        # Переходимо на головну, щоб мати правильний домен для cookies
+        logger.info(f"Крок 1.5: Перехід на {page_url} для встановлення cookies...")
+        driver.get(page_url)
+        logger.info(f"Крок 1.5: Сторінку {page_url} завантажено.")
+        time.sleep(random.uniform(1, 2))  # Невелика пауза
+
+        # --- Крок 1.6: Встановлення Cookies ---
+        # УВАГА: Імена та значення cookie 'aep_usuc_f' можуть потребувати точного налаштування!
+        # Значення 'aep_usuc_f' потрібно перевірити у браузері
+        # після ручного налаштування мови/валюти/регіону на сайті.
+        cookies_to_set = [
+            {'name': 'intl_locale', 'value': 'en_US', 'domain': '.aliexpress.com', 'path': '/'},
+            {'name': 'aep_usuc_f', 'value': 'isfm=y&site=glo&c_tp=USD&region=US&b_locale=en_US', 'domain': '.aliexpress.com',
+             'path': '/'}
+            # Можливо, знадобляться інші cookies, наприклад, пов'язані з країною доставки
+
+        ]
+        logger.info("Крок 1.6: Встановлення кукі для мови (en_US) та валюти (USD)...")
+        for cookie in cookies_to_set:
+            try:
+                # Іноді краще видалити існуючий cookie перед додаванням
+                driver.delete_cookie(cookie['name'])
+                driver.add_cookie(cookie)
+                logger.info(f"Встановлено кукі: {cookie['name']}={cookie['value']}")
+            except Exception as cookie_err:
+                logger.warning(f"Не вдалося встановити кукі {cookie['name']}: {cookie_err}")
+
+        # --- Крок 1.7: Перезавантаження сторінки ---
+        logger.info("Крок 1.7: Перезавантаження сторінки для застосування кукі...")
+        driver.refresh()
+        # Додаємо очікування після перезавантаження, наприклад, на видимість тіла сторінки
+        try:
+            WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.TAG_NAME, "body")))
+            logger.info("Крок 1.7: Сторінку перезавантажено та тіло сторінки видиме.")
+        except TimeoutException:
+            logger.warning("Крок 1.7: Сторінка не завантажилася повністю після перезавантаження та встановлення кукі.")
+            # Продовжуємо виконання, але це може спричинити проблеми далі
+        time.sleep(random.uniform(1, 2))  # Додаткова пауза
+
+        # ---------------------------------
 
         logger.info(f"Крок 2: Перехід на сторінку {page_url}...")
         driver.get(page_url)
         logger.info(f"Крок 2: Сторінку {page_url} завантажено.")
 
-        wait = WebDriverWait(driver, 5)
+        wait = WebDriverWait(driver, 10)
 
         button_xpath = "//div[contains(@class, 'picture-search-btn')]"
         logger.info(f"Крок 3: Очікування кнопки пошуку за зображенням: {button_xpath}")
         button = wait.until(EC.element_to_be_clickable((By.XPATH, button_xpath)))
         logger.info("Крок 3: Кнопку знайдено, виконується клік...")
         button.click()
-        time.sleep(random.uniform(0.3, 1.5))
+        time.sleep(random.uniform(0.5, 1.5))
 
         file_input_xpath = "//input[@type='file' and contains(@accept, '.jpg')]"
         logger.info(f"Крок 4: Очікування input[type='file']: {file_input_xpath}")
@@ -73,7 +117,7 @@ def search_with_selenium(page_url: str, image_path: str) -> Optional[SearchResul
         file_input.send_keys(image_path)
         logger.info("Крок 5: Файл успішно передано у input.")
 
-        time.sleep(random.uniform(2, 3))
+        time.sleep(random.uniform(3, 4))
 
         results_container_selector = "#card-list a.search-card-item"
         results_present = EC.presence_of_element_located((By.CSS_SELECTOR, results_container_selector))
