@@ -33,7 +33,7 @@ def search_with_selenium(page_url: str, image_path: str) -> Optional[SearchResul
     options.add_argument("--disable-extensions")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--lang=uk-UA,uk,en-US,en")
+    options.add_argument("--lang=en-US,en,uk-UA,uk")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
 
     try:
@@ -104,6 +104,7 @@ def search_with_selenium(page_url: str, image_path: str) -> Optional[SearchResul
                     continue
 
                 title_text = "Назва не знайдена"
+                price_text = "Ціна не знайдена"  # Значення за замовчуванням
                 photo = ""
                 try:
                     title_element = element.find_element(By.CSS_SELECTOR, title_selector)
@@ -121,17 +122,40 @@ def search_with_selenium(page_url: str, image_path: str) -> Optional[SearchResul
                 except Exception:
                     pass
 
-                # price_text = "Ціна не знайдена"
-                # try:
-                #     price_element = element.find_element(By.CSS_SELECTOR, price_selector)
-                #     price_text = price_element.text.strip().replace('\n', ' ')
-                #     if not price_text:
-                #         price_text = price_element.get_attribute('innerText').strip().replace('\n', ' ')
-                # except Exception:
-                #     pass
+
+                price_container_selector = "div.kc_k1"  # Селектор для контейнера ціни
+
+                try:
+                    # Знаходимо контейнер div.kc_k1 відносно поточного елемента 'element'
+                    price_container = element.find_element(By.CSS_SELECTOR, price_container_selector)
+
+                    # Знаходимо ВСІ елементи span всередині контейнера ціни
+                    price_spans = price_container.find_elements(By.TAG_NAME, "span")
+
+                    # Витягуємо текст з кожного span (якщо він не порожній)
+                    price_parts = [span.text.strip() for span in price_spans if span.text.strip()]
+
+                    # Збираємо ціну, якщо знайшли частини
+                    if len(price_parts) >= 2:  # Потрібна принаймні валюта та ціле число
+                        # Формат: Валюта + пробіл + Решта (ціле + роздільник + дробове)
+                        currency_symbol = price_parts[0]
+                        numeric_part = "".join(price_parts[1:])  # Поєднуємо другу та наступні частини
+                        price_text = f"{currency_symbol} {numeric_part}"
+                    elif price_parts:  # Якщо є хоча б одна частина (наприклад, тільки ціна без валюти)
+                        price_text = price_parts[0]
+                    # Якщо price_parts порожній, price_text залишиться "Ціна не знайдена"
+
+                    logger.debug(f"Знайдено частини ціни: {price_parts} -> Результат: {price_text}")
+
+                except Exception as price_err:
+                    # Логуємо, якщо не вдалося знайти контейнер ціни або виникла інша помилка
+                    logger.warning(
+                        f"Не вдалося знайти/обробити ціну за селектором {price_container_selector}. Помилка: {price_err}")
+                    # price_text залишається "Ціна не знайдена"
+
 
                 cleaned_href = clean_url(href)
-                results_data.append({"url": cleaned_href, "title": title_text, "photo": photo})
+                results_data.append({"url": cleaned_href, "title": title_text, "photo": photo, "price": price_text})
                 count += 1
 
             except Exception as el_err:
@@ -140,7 +164,7 @@ def search_with_selenium(page_url: str, image_path: str) -> Optional[SearchResul
 
         if results_data:
             total_time = time.time() - start_time
-            # print(results_data)
+            print(results_data)
             logger.info(f"Крок 8: Повернення результатів. Загальний час: {total_time:.2f} сек.")
             return {"current_url": new_url, "results": results_data}
         else:

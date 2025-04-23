@@ -149,17 +149,20 @@ async def handle_photo_search(message: Message):
         # Обробляємо результати
         if search_results_data and search_results_data.get("results"):
             results = search_results_data["results"]
-            response_text = "🔍 Ось що вдалося знайти схожого:\n\n"
+            response_text = "🔍 Ось що вдалося знайти схожого\n\n"
             for i, item in enumerate(results, 1):
                 # Екрануємо HTML символи в назві
-                title = item.get('title', 'Без назви').replace('<', '&lt;').replace('>', '&gt;')
+                title = item.get('title').replace('<', '&lt;').replace('>', '&gt;')
                 url = item.get('url', '#')
+                price = item.get('price')
 
                 photo_url = item.get('photo')
                 if photo_url:
                     try:
-                        await bot.send_photo(chat_id=message.chat.id, photo=photo_url,
-                                             caption=f"{i}. <a href='{url}'>{title}</a>", parse_mode=ParseMode.HTML)
+                        await bot.send_photo(chat_id=message.chat.id,
+                                             photo=photo_url,
+                                             caption=f"{i}. <a href='{url}'>{title}</a> - {price}",
+                                             parse_mode=ParseMode.HTML)
                     except TelegramAPIError as e:
                         logger.error(f"Помилка Telegram API при відправці фото за URL: {e}")
                         response_text += f"{i}. <a href='{url}'>{title}</a>\n  URL фото: {photo_url} (Помилка Telegram)\n\n"
